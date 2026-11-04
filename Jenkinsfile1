@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    
+    options {
+        timestamps()
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo '=== Étape 1 : Récupération du code source ==='
+                git url: 'https://github.com/yassminetira/projetJenkins.git', branch: 'main'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                echo '=== Étape 2 : Construction (Build) ==='
+                // Remplace cette commande par ton outil de build (ex:mvn clean package, npm install, etc.)
+                bat 'echo Compilation et préparation des fichiers du projet...'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo '=== Étape 3 : Lancement des tests ==='
+                // Remplace cette commande par ton script de test (ex: npm test, pytest, mvn test)
+                bat 'echo Exécution des tests en cours...'
+                bat 'echo Tests réussis avec succès !'
+            }
+        }
+        
+        stage('Delivery') {
+            steps {
+                echo '=== Étape 4 : Livraison (Delivery) ==='
+                // Simulation ou copie vers un serveur de staging / dossier de déploiement
+                bat 'echo Le livrable est prêt et déployé avec succès.'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline exécuté avec succès (Build OK)'
+        }
+        failure {
+            echo 'Le pipeline a échoué (Build KO)'
+        }
+    }
+}
