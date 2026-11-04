@@ -16,24 +16,22 @@ pipeline {
         stage('Build') {
             steps {
                 echo '=== Étape 2 : Construction (Build) ==='
-                // Remplace cette commande par ton outil de build (ex:mvn clean package, npm install, etc.)
                 bat 'echo Compilation et préparation des fichiers du projet...'
             }
         }
         
-        stage('Test') {
+        stage('Test - Vérifier h1') {
             steps {
-                echo '=== Étape 3 : Lancement des tests ==='
-                // Remplace cette commande par ton script de test (ex: npm test, pytest, mvn test)
-                bat 'echo Exécution des tests en cours...'
-                bat 'echo Tests réussis avec succès !'
+                echo '=== Étape 3 : Lancement des tests (Recherche de <h1>) ==='
+                // Utilisation de findstr sous Windows pour chercher la balise h1 dans les fichiers .html
+                bat 'findstr /si "<h1" *.html'
+                echo 'Test réussi : Une balise h1 a été trouvée !'
             }
         }
         
         stage('Delivery') {
             steps {
                 echo '=== Étape 4 : Livraison (Delivery) ==='
-                // Simulation ou copie vers un serveur de staging / dossier de déploiement
                 bat 'echo Le livrable est prêt et déployé avec succès.'
             }
         }
@@ -44,7 +42,7 @@ pipeline {
             echo 'Pipeline exécuté avec succès (Build OK)'
         }
         failure {
-            echo 'Le pipeline a échoué (Build KO)'
+            echo 'Le pipeline a échoué (Build KO - Aucune balise h1 trouvée ou erreur)'
         }
     }
 }
